@@ -10,7 +10,5 @@
         name: "helloworld"
         image: "antoinebouquet1010/helloworld"        
         ports: 80:80
-        state: started 
-        comparisons:
-          image: strict
+        recreate: yes
 ...
