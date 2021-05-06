@@ -1,6 +1,6 @@
 ---
 - name: "Helloworld installation"
-  become: yes
+  become: true
   hosts: prod
   vars:
     ansible_python_interpreter: /usr/bin/python3
@@ -8,7 +8,7 @@
     - name: Create default containers
       docker_container:
         name: "helloworld"
-        image: "antoinebouquet1010/helloworld"        
+        image: "antoinebouquet1010/helloworld"
         ports: 80:80
         pull: true
 ...
