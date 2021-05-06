@@ -62,7 +62,7 @@ stage('Check yaml syntax') {
             agent { docker { image 'sdesbure/yamllint' } }
             steps {
                 sh 'yamllint --version'
-                sh 'yamllint \${WORKSPACE}'
+                sh 'yamllint \${WORKSPACE}/ansible'
             }
         }
 stage('deploy with ansible') {
