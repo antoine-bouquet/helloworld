@@ -10,4 +10,6 @@
         name: "helloworld"
         image: "antoinebouquet1010/helloworld"        
         ports: 80:80 
+        comparisons:
+          image: strict
 ...
