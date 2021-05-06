@@ -65,6 +65,15 @@ stage('Check yaml syntax') {
                 sh 'yamllint \${WORKSPACE}/ansible'
             }
         }
+
+stage('Check ansible syntax') {
+            agent { docker { image 'cytopia/ansible-lint' } }
+            steps {
+                sh 'ansible-lint --version'
+                sh 'ansible-lint \${WORKSPACE}/ansible'
+            }
+        }
+
 stage('deploy with ansible') {
             agent { docker { image 'dirane/docker-ansible:latest' } }
             steps {
