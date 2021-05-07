@@ -65,7 +65,7 @@ stage('Push image in staging and deploy it') {
             when {
               expression { GIT_BRANCH == 'origin/master' }
             }
-            agent { docker { image 'heroku/heroku' } }
+            agent { docker { image 'heroku/nodejs-hello-world' } }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
             }
@@ -97,7 +97,7 @@ stage('Push image in staging and deploy it') {
             when {
               expression { GIT_BRANCH == 'origin/master' }
             }
-            agent { docker { image 'heroku/heroku' } }
+            agent { docker { image 'heroku/nodejs-hello-world' } }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
             }
