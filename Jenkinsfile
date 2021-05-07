@@ -1,7 +1,10 @@
+
 pipeline {
     environment {
         IMAGE_NAME = "helloworld"
         IMAGE_TAG = "latest"
+        STAGING = "antoine-staging"
+        PRODUCTION = "antoine-production"
         IMAGE_REPO = "antoinebouquet1010"
      }
     agent none
@@ -27,12 +30,12 @@ pipeline {
             }
         }
         stage('Test image') {
-            agent any
+            agent { docker { image 'bash' } }
             steps {
                 script {
-                    sh '''
+
                         curl http://172.17.0.1 | grep -q "Hello universe"
-                    '''
+
               }
            }
         }
@@ -58,5 +61,72 @@ pipeline {
                }
            }
         }
-    }
+stage('Push image in staging and deploy it') {
+            when {
+              expression { GIT_BRANCH == 'origin/master' }
+            }
+            agent { docker { image 'bash' } }
+            environment {
+                HEROKU_API_KEY = credentials('heroku_api_key')
+            }
+            steps {
+                script {
+
+                    heroku container:login
+                    heroku create $STAGING || echo "project already exist"
+                    heroku container:push -a $STAGING web
+                    heroku container:release -a $STAGING web
+
+                }
+            }
+        }
+        stage('Test Staging deployment') {
+       when {
+              expression { GIT_BRANCH == 'origin/master' }
+            }
+           agent { docker { image 'bash' } }
+           steps {
+              script {
+
+                    curl https://${STAGING}.herokuapp.com | grep -q "Hello universe"
+
+              }
+           }
+      }
+        stage('Push image in production and deploy it') {
+            when {
+              expression { GIT_BRANCH == 'origin/master' }
+            }
+            agent { docker { image 'bash' } }
+            environment {
+                HEROKU_API_KEY = credentials('heroku_api_key')
+            }
+            steps {
+                script {
+
+                    heroku container:login
+                    heroku create $PRODUCTION || echo "project already exist"
+                    heroku container:push -a $PRODUCTION web
+                    heroku container:release -a $PRODUCTION web
+
+                }
+            }
+        }
+        stage('Test Prod deployment') {
+       when {
+              expression { GIT_BRANCH == 'origin/master' }
+            }
+           agent { docker { image 'docker' } }
+           steps {
+              script {
+
+                    curl https://${PRODUCTION}.herokuapp.com | grep -q "Hello universe"
+
+              }
+           }
+      }
 }
+}
+
+
+
