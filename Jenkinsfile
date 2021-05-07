@@ -27,7 +27,7 @@ pipeline {
             }
         }
         stage('Test image') {
-            agent { docker { image 'docker' } }
+            agent any
             steps {
                 script {
                     sh '''
