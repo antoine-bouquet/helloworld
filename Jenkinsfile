@@ -3,8 +3,8 @@ pipeline {
     environment {
         IMAGE_NAME = "helloworld"
         IMAGE_TAG = "latest"
-        STAGING = "antoine-staging"
-        PRODUCTION = "antoine-production"
+        STAGING = "antoine-miniprojet-staging"
+        PRODUCTION = "antoine-miniprojet-production"
         IMAGE_REPO = "antoinebouquet1010"
      }
     agent none
