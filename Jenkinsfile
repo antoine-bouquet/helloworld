@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        curl http://172.17.0.1 | grep -q "Hello world"
+                        curl http://172.17.0.1 | grep -q "Hello universe"
                     '''
               }
            }
@@ -47,7 +47,7 @@ pipeline {
         stage('Push image on dockerhub') {
            agent { docker { image 'docker' } }
            environment {
-                DOCKERHUB_LOGIN = credentials('ded4d165-8a67-471f-8797-a6a89d48abc9')
+                DOCKERHUB_LOGIN = credentials('dockerhub_login_antoine')
             }
            steps {
                script {
