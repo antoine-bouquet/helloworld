@@ -30,7 +30,7 @@ pipeline {
             }
         }
         stage('Test image') {
-            agent { docker { image 'bash' } }
+            agent { docker { image 'curlimages/curl' } }
             steps {
                 script {
                         sh '''
@@ -65,7 +65,7 @@ stage('Push image in staging and deploy it') {
             when {
               expression { GIT_BRANCH == 'origin/master' }
             }
-            agent { docker { image 'bash' } }
+            agent { docker { image 'heroku/pack' } }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
             }
@@ -84,7 +84,7 @@ stage('Push image in staging and deploy it') {
        when {
               expression { GIT_BRANCH == 'origin/master' }
             }
-           agent { docker { image 'bash' } }
+           agent { docker { image 'curlimages/curl' } }
            steps {
               script {
                     sh '''
@@ -97,7 +97,7 @@ stage('Push image in staging and deploy it') {
             when {
               expression { GIT_BRANCH == 'origin/master' }
             }
-            agent { docker { image 'bash' } }
+            agent { docker { image 'heroku/pack' } }
             environment {
                 HEROKU_API_KEY = credentials('heroku_api_key')
             }
@@ -116,7 +116,7 @@ stage('Push image in staging and deploy it') {
        when {
               expression { GIT_BRANCH == 'origin/master' }
             }
-           agent { docker { image 'docker' } }
+           agent { docker { image 'curlimages/curl' } }
            steps {
               script {
                     sh'''
