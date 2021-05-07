@@ -58,7 +58,13 @@ pipeline {
                }
            }
         }
-
+stage('Check yaml syntax') {
+            agent { docker { image 'sdesbure/yamllint' } }
+            steps {
+                sh 'yamllint --version'
+                sh 'yamllint \${WORKSPACE}'
+            }
+        }
 stage('deploy with ansible') {
             agent { docker { image 'dirane/docker-ansible:latest' } }
             steps {
